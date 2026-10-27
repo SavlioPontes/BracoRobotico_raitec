@@ -2,7 +2,7 @@ import processing.serial.*; // Bibliotecas de comunicacao Serial
 
 Serial portaSerial;
 boolean serialConectada = false;
-String portaNome = "COM3"; // Altere para a porta correta da ESP32 (ex: COM3)
+String portaNome = "COM4"; // Altere para a porta correta da ESP32 (ex: COM3)
 
 // Comprimento dos elos
 float L1 = 115.0; // Elo 1: S2 - S3
@@ -32,18 +32,24 @@ boolean tDireita = false;
 PImage iconeLogo;
 
 void setup() {
-  size(1100, 750, P3D); // Tamanho da janela
-  smooth(8); // anti-aliasing
+  size(1100, 750, P3D);
+  smooth(8);
 
-  // Carrega /data/raitec_logo.png
   iconeLogo = loadImage("raitec_logo.png");
+
+  // Lista as portas seriais disponíveis
+  println("Portas seriais disponíveis:");
+  printArray(Serial.list());
 
   try {
     portaSerial = new Serial(this, portaNome, 115200);
     serialConectada = true;
+    println("Conectado à ESP32 pela porta " + portaNome);
   }
   catch (Exception e) {
-    println("Modo Simulação (Sem Serial)");
+    serialConectada = false;
+    println("Erro ao conectar à porta " + portaNome);
+    println("Detalhes: " + e.getMessage());
   }
 }
 
