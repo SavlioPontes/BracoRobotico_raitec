@@ -140,7 +140,7 @@ void setup() {
   servo[0].write(105);
   servo[1].write(120);
   servo[2].write(70);
-  servo[3].write(100);
+  servo[3].write(60);
   servo[4].write(0);
   servo[5].write(0); // REVER A GARRA
 

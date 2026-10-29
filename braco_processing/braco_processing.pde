@@ -2,10 +2,10 @@ import processing.serial.*; // Bibliotecas de comunicação Serial
 
 Serial portaSerial;
 boolean serialConectada = false;
-String portaNome = ""; // Adicionar sua porta COM da ESP
+String portaNome = "COM15"; // Adicionar sua porta COM da ESP
 
 // Comprimento dos elos
-float L1 = 105.0;
+float L1 = 85.0;
 float L2 = 90.0;
 float L3 = 80.0;
 
@@ -13,7 +13,7 @@ float L3 = 80.0;
 float servo0 = 105;
 float servo1 = 120;  
 float servo2 = 70;
-float servo3 = 100;
+float servo3 = 60;
 float servo4 = 0;
 float servo5 = 0; // rever a GARRA
 
@@ -270,7 +270,7 @@ void mouseDragged() {
     } else if (juntaAtual == 2) {
      atualizarSliderPorMouse(2, 60, 180);
     } else if (juntaAtual == 3) {
-      atualizarSliderPorMouse(3, 0, 130);
+      atualizarSliderPorMouse(3, 0, 100);
     } else if (juntaAtual == 4) {
       atualizarSliderPorMouse(4, 0, 180);
     }
@@ -297,7 +297,7 @@ void mouseDragged() {
     servo0 = constrain(servo0, 0, 180);
     servo1 = constrain(servo1, 0, 180);
     servo2 = constrain(servo2, 60, 180);
-    servo3 = constrain(servo3, 0, 130);
+    servo3 = constrain(servo3, 0, 100);
 
     sendToEsp();
   } else if (keyPressed && keyCode == SHIFT) {
@@ -369,7 +369,7 @@ void desenharHUD() {
   desenharSlider("S1", 215, servo0, 0, 180, juntaAtual == 0);
   desenharSlider("S2", 255, servo1, 0, 180, juntaAtual == 1);
   desenharSlider("S3", 295, servo2, 60, 180, juntaAtual == 2);
-  desenharSlider("S4", 335, servo3, 0, 130, juntaAtual == 3);
+  desenharSlider("S4", 335, servo3, 0, 100, juntaAtual == 3);
   desenharSlider("S5", 375, servo4, 0, 180, juntaAtual == 4);
 
   fill(255);
