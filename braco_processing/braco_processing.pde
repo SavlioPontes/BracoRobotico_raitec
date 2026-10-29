@@ -2,24 +2,24 @@ import processing.serial.*; // Bibliotecas de comunicação Serial
 
 Serial portaSerial;
 boolean serialConectada = false;
-String portaNome = "COM15";
+String portaNome = ""; // Adicionar sua porta COM da ESP
 
 // Comprimento dos elos
 float L1 = 105.0;
-float L2 = 90  .0;
+float L2 = 90.0;
 float L3 = 80.0;
 
 // Posição inicial de cada servo
 float servo0 = 105;
-float servo1 = 80;
-float servo2 = 60;
-float servo3 = 60;
-float servo4 = 90;
-float servo5 = 18;
+float servo1 = 120;  
+float servo2 = 70;
+float servo3 = 100;
+float servo4 = 0;
+float servo5 = 0; // rever a GARRA
 
 // Câmera inicial
-float camRotX = -0.2;
-float camRotY = 1.5;
+float camRotX = -0.25;
+float camRotY = 0;
 float camZoom = -50.0;
 float camX = 0.0;
 float camY = 0.0;
@@ -108,17 +108,17 @@ void drawArm() {
   criarPonto(0);
   rotateY(radians(105 - servo0));
 
-  fill(20, 50, 50);
+  fill(56, 73, 64); 
   translate(0, -15, 0);
-  box(30, 20, 30);
+  box(40, 20, 40);
 
   // S2 - Primeiro elo
   translate(0, -10, 0);
   criarPonto(1);
 
-  rotateZ(radians(servo1 - 80));
+  rotateZ(radians(servo1 - 90));
 
-  fill(220, 220, 225);
+  fill(41, 45, 50); 
   translate(0, -L1 / 2, 0);
   box(22, L1, 22);
 
@@ -128,7 +128,7 @@ void drawArm() {
 
   rotateZ(radians(servo2 - 150));
 
-  fill(0, 150, 215);
+  fill(69, 75, 82);  
   translate(0, -L2 / 2, 0);
   box(18, L2, 18);
 
@@ -138,17 +138,17 @@ void drawArm() {
 
   rotateZ(-radians(servo3));
 
-  fill(65, 70, 80);
+  fill(41, 45, 50);
   translate(0, -L3 / 2, 0);
   box(14, L3, 14);
 
   // S5 - Rotação da garra
-  rotateY(radians(servo4));
+  rotateY(radians(servo4 - 90));
 
   // S6 - Abertura da garra
-  float abert = map(servo5, 10, 75, 4, 25);
+  float abert = map(servo5, 10, 75, 25, 4);
 
-  fill(200);
+  fill(181, 107, 53);   
 
   // Garra esquerda
   pushMatrix();
@@ -175,7 +175,7 @@ void criarPonto(int id) {
     fill(255, 50, 50);
     sphere(14);
   } else {
-    fill(255, 200, 0);
+    fill(120, 100, 0);
     sphere(10);
   }
 
@@ -198,7 +198,7 @@ void mousePressed() {
   // Fechar garra
   if (mouseX >= 20 && mouseX <= 145 &&
       mouseY >= 415 && mouseY <= 445) {
-    servo5 -= 20;
+    servo5 += 20;
     servo5 = constrain(servo5, 10, 75);
     sendToEsp();
     return;
@@ -207,7 +207,7 @@ void mousePressed() {
   // Abrir garra
   if (mouseX >= 155 && mouseX <= 280 &&
       mouseY >= 415 && mouseY <= 445) {
-    servo5 += 20;
+    servo5 -= 20;
     servo5 = constrain(servo5, 10, 75);
     sendToEsp();
     return;
@@ -226,7 +226,7 @@ void mousePressed() {
       atualizarSliderPorMouse(2, 60, 180);
     } else if (mouseY >= 330 && mouseY <= 350) {
       juntaAtual = 3;
-      atualizarSliderPorMouse(3, 0, 180);
+      atualizarSliderPorMouse(3, 0, 130);
     } else if (mouseY >= 370 && mouseY <= 390) {
       juntaAtual = 4;
       atualizarSliderPorMouse(4, 0, 180);
@@ -270,7 +270,7 @@ void mouseDragged() {
     } else if (juntaAtual == 2) {
      atualizarSliderPorMouse(2, 60, 180);
     } else if (juntaAtual == 3) {
-      atualizarSliderPorMouse(3, 0, 180);
+      atualizarSliderPorMouse(3, 0, 130);
     } else if (juntaAtual == 4) {
       atualizarSliderPorMouse(4, 0, 180);
     }
@@ -297,12 +297,12 @@ void mouseDragged() {
     servo0 = constrain(servo0, 0, 180);
     servo1 = constrain(servo1, 0, 180);
     servo2 = constrain(servo2, 60, 180);
-    servo3 = constrain(servo3, 0, 180);
+    servo3 = constrain(servo3, 0, 130);
 
     sendToEsp();
   } else if (keyPressed && keyCode == SHIFT) {
-    camRotY += (mouseX - pmouseX) * 0.01;
-    camRotX += (mouseY - pmouseY) * 0.01;
+    camRotY += (mouseX - pmouseX) * 0.005;
+    camRotX += (mouseY - pmouseY) * 0.005;
   }
 }
 
@@ -369,7 +369,7 @@ void desenharHUD() {
   desenharSlider("S1", 215, servo0, 0, 180, juntaAtual == 0);
   desenharSlider("S2", 255, servo1, 0, 180, juntaAtual == 1);
   desenharSlider("S3", 295, servo2, 60, 180, juntaAtual == 2);
-  desenharSlider("S4", 335, servo3, 0, 180, juntaAtual == 3);
+  desenharSlider("S4", 335, servo3, 0, 130, juntaAtual == 3);
   desenharSlider("S5", 375, servo4, 0, 180, juntaAtual == 4);
 
   fill(255);
@@ -381,14 +381,14 @@ void desenharHUD() {
   rect(20, 415, 125, 30, 5);
 
   fill(255);
-  text("◀ FECHAR (-20°)", 28, 435);
+  text("◀ FECHAR (+20°)", 28, 435);
 
   // Botão abrir
   fill(50, 60, 75);
   rect(155, 415, 125, 30, 5);
 
   fill(255);
-  text("ABRIR (+20°) ▶", 163, 435);
+  text("ABRIR (-20°) ▶", 163, 435);
 
   if (iconeLogo != null) {
     image(iconeLogo, 15, 600, 250, 250);
@@ -419,7 +419,7 @@ void desenharSlider(
   fill(
     selecionado
     ? color(50, 255, 50)
-    : color(240, 180, 40)
+    : color(240, 180, 20)
   );
 
   rect(20, yPos, larguraPreenchimento, 10, 5);
@@ -441,4 +441,3 @@ void sendToEsp() {
     portaSerial.write(pacote);
   }
 }
-```
