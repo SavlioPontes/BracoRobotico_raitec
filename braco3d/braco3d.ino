@@ -20,7 +20,7 @@ int validarMov(int i, int angulo) {
       break;
 
     case 1: // S2
-      if (angulo < 20 || angulo > 120) return -1;
+      if (angulo < 0 || angulo > 180) return -1;
       break;
 
     case 2: // S3
@@ -28,15 +28,15 @@ int validarMov(int i, int angulo) {
       break;
 
     case 3: // S4
-      if (angulo < 0 || angulo > 180) return -1;
+      if (angulo < 0 || angulo > 100) return -1;
       break;
 
     case 4: // S5
-      if (angulo < 40 || angulo > 140) return -1;
+      if (angulo < 0 || angulo > 180) return -1;
       break;
   
     case 5: // S6
-      if (angulo < 0 || angulo > 90) return -1;
+      if (angulo < 10 || angulo > 75) return -1;
       break;
 
     default:
@@ -142,7 +142,7 @@ void setup() {
   servo[2].write(70);
   servo[3].write(60);
   servo[4].write(0);
-  servo[5].write(0); // REVER A GARRA
+  servo[5].write(75); // REVER A GARRA
 
   Serial.println("Braco robotico pronto.");
 }

@@ -15,7 +15,7 @@ float servo1 = 120;
 float servo2 = 70;
 float servo3 = 60;
 float servo4 = 0;
-float servo5 = 0; // rever a GARRA
+float servo5 = 75; // rever a GARRA
 
 // Câmera inicial
 float camRotX = -0.25;
@@ -106,11 +106,11 @@ void drawArm() {
 
   // S1 - Base
   criarPonto(0);
-  rotateY(radians(105 - servo0));
+  rotateY(-radians(105 - servo0));
 
   fill(56, 73, 64); 
-  translate(0, -15, 0);
-  box(40, 20, 40);
+  translate(0, -30, 0);
+  box(40, 30, 40);
 
   // S2 - Primeiro elo
   translate(0, -10, 0);
@@ -136,12 +136,12 @@ void drawArm() {
   translate(0, -L2 / 2, 0);
   criarPonto(3);
 
-  rotateZ(-radians(servo3));
+  rotateZ(-radians(servo3+40));
 
   fill(41, 45, 50);
   translate(0, -L3 / 2, 0);
   box(14, L3, 14);
-
+  
   // S5 - Rotação da garra
   rotateY(radians(servo4 - 90));
 
@@ -439,5 +439,5 @@ void sendToEsp() {
       ">\n";
 
     portaSerial.write(pacote);
-  }
+  }  
 }
